@@ -2,6 +2,7 @@ import React from 'react';
 import { Table, Button, Input, List } from 'antd';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
+import { CloseOutlined } from '@ant-design/icons';
 
 import './assets/css/index.scss'
 import ListItem from "antd/es/upload/UploadList/ListItem";
@@ -16,6 +17,14 @@ import ListItem from "antd/es/upload/UploadList/ListItem";
       files: [],
       uploads: [],
     };
+
+    remove = (id) => () => {
+      const { uploads } = this.state;
+      const arr = uploads.filter(item => item.id !== id);
+     this.setState({
+       uploads: arr,
+     });
+    }
 
     handleFileChange = (e) => {
       const { uploads, uploadStatus } = this.state;
@@ -84,6 +93,7 @@ import ListItem from "antd/es/upload/UploadList/ListItem";
               (uploads || []).map(item => <List.Item>
                 <img style={{width: '50px', height: '50px', display: "block"}} src={item.url} />
                 <span>{item.name}</span>
+                <span><CloseOutlined onClick={this.remove(item.id)} /></span>
               </List.Item>)
             }
           </List>
